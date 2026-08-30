@@ -1,0 +1,71 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: TYPO3 14 / PHP 8.5
+            php: '8.5'
+            dependencies: locked
+          - name: TYPO3 13 with Powermail / PHP 8.2
+            php: '8.2'
+            dependencies: typo3-13
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl, dom, intl, mbstring, pdo_sqlite, xml, xmlwriter
+          coverage: none
+          tools: composer:v2
+        env:
+          fail-fast: true
+
+      - name: Validate Composer configuration
+        run: composer validate --strict
+
+      - name: Install locked dependencies
+        if: matrix.dependencies == 'locked'
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Add Powermail test dependency
+        if: matrix.dependencies == 'typo3-13'
+        run: composer require --dev --no-update --no-interaction in2code/powermail:^13.2
+
+      - name: Resolve TYPO3 13 dependencies
+        if: matrix.dependencies == 'typo3-13'
+        run: >-
+          composer update
+          --with typo3/cms-backend:^13.4
+          --with typo3/cms-core:^13.4
+          --with typo3/cms-felogin:^13.4
+          --with typo3/cms-form:^13.4
+          --with typo3/cms-frontend:^13.4
+          --prefer-dist
+          --no-interaction
+          --no-progress
+
+      - name: Validate code and run tests
+        run: composer test

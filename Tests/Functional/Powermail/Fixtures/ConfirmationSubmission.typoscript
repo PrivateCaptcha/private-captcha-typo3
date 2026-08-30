@@ -1,0 +1,9 @@
+@import 'EXT:private_captcha/Tests/Functional/Powermail/Fixtures/DirectSubmission.typoscript'
+
+plugin.tx_powermail.settings.setup.main.confirmation = 1
+page.10.settings.main.confirmation = 1
+
+plugin.tx_powermail.settings.setup.dataProcessors.987654321 {
+    class = PrivateCaptcha\Typo3\Tests\Functional\Powermail\Fixtures\NormalizeAnswersDataProcessor
+}
+page.10.settings.dataProcessors.987654321 < plugin.tx_powermail.settings.setup.dataProcessors.987654321

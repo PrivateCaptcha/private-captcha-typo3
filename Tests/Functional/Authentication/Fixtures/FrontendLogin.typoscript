@@ -1,0 +1,14 @@
+config {
+    no_cache = 1
+}
+
+plugin.tx_felogin_login.settings.showForgotPassword = 1
+plugin.tx_felogin_login.settings.email_from = no-reply@example.test
+plugin.tx_felogin_login.settings.email_fromName = Example
+
+page = PAGE
+page.10 = EXTBASEPLUGIN
+page.10 {
+    extensionName = Felogin
+    pluginName = Login
+}

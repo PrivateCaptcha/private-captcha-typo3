@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="messages" date="2026-08-22T00:00:00Z" product-name="private_captcha">
+    <header/>
+    <body>
+      <trans-unit id="mlang_tabs_tab" resname="mlang_tabs_tab">
+        <source>Private Captcha</source>
+      </trans-unit>
+      <trans-unit id="mlang_labels_tabdescr" resname="mlang_labels_tabdescr">
+        <source>Configure Private Captcha for a site or backend login.</source>
+      </trans-unit>
+      <trans-unit id="mlang_labels_tablabel" resname="mlang_labels_tablabel">
+        <source>Private Captcha settings</source>
+      </trans-unit>
+      <trans-unit id="settings.heading" resname="settings.heading">
+        <source>Private Captcha settings</source>
+      </trans-unit>
+      <trans-unit id="settings.backend" resname="settings.backend">
+        <source>Backend login</source>
+      </trans-unit>
+      <trans-unit id="settings.site" resname="settings.site">
+        <source>Site: %s</source>
+      </trans-unit>
+      <trans-unit id="settings.protectionEnabled" resname="settings.protectionEnabled">
+        <source>Protection is enabled.</source>
+      </trans-unit>
+      <trans-unit id="settings.protectionDisabled" resname="settings.protectionDisabled">
+        <source>Protection is off.</source>
+      </trans-unit>
+      <trans-unit id="settings.section.account" resname="settings.section.account">
+        <source>Account</source>
+      </trans-unit>
+      <trans-unit id="settings.section.integrations" resname="settings.section.integrations">
+        <source>Integrations</source>
+      </trans-unit>
+      <trans-unit id="settings.section.widget" resname="settings.section.widget">
+        <source>Widget</source>
+      </trans-unit>
+      <trans-unit id="settings.section.advanced" resname="settings.section.advanced">
+        <source>Advanced</source>
+      </trans-unit>
+      <trans-unit id="settings.section.status" resname="settings.section.status">
+        <source>Connection status</source>
+      </trans-unit>
+      <trans-unit id="settings.section.actions" resname="settings.section.actions">
+        <source>Settings actions</source>
+      </trans-unit>
+      <trans-unit id="settings.field.apiKey" resname="settings.field.apiKey">
+        <source>API key</source>
+      </trans-unit>
+      <trans-unit id="settings.field.apiKeyConfigured" resname="settings.field.apiKeyConfigured">
+        <source>API key configured</source>
+      </trans-unit>
+      <trans-unit id="settings.field.apiKeyEmpty" resname="settings.field.apiKeyEmpty">
+        <source>Enter an API key.</source>
+      </trans-unit>
+      <trans-unit id="settings.field.apiKeyHelp" resname="settings.field.apiKeyHelp">
+        <source>Leave blank to keep the current key.</source>
+      </trans-unit>
+      <trans-unit id="settings.field.sitekey" resname="settings.field.sitekey">
+        <source>Sitekey</source>
+      </trans-unit>
+      <trans-unit id="settings.field.formFramework" resname="settings.field.formFramework">
+        <source>TYPO3 Form Framework</source>
+      </trans-unit>
+      <trans-unit id="settings.field.powermail" resname="settings.field.powermail">
+        <source>Powermail</source>
+      </trans-unit>
+      <trans-unit id="settings.field.frontendLogin" resname="settings.field.frontendLogin">
+        <source>TYPO3 frontend login</source>
+      </trans-unit>
+      <trans-unit id="settings.field.backendLogin" resname="settings.field.backendLogin">
+        <source>TYPO3 backend login</source>
+      </trans-unit>
+      <trans-unit id="settings.field.backendLoginHelp" resname="settings.field.backendLoginHelp">
+        <source>Protects TYPO3's native username and password login only.</source>
+      </trans-unit>
+      <trans-unit id="settings.field.theme" resname="settings.field.theme">
+        <source>Theme</source>
+      </trans-unit>
+      <trans-unit id="settings.option.theme.light" resname="settings.option.theme.light">
+        <source>Light</source>
+      </trans-unit>
+      <trans-unit id="settings.option.theme.dark" resname="settings.option.theme.dark">
+        <source>Dark</source>
+      </trans-unit>
+      <trans-unit id="settings.field.language" resname="settings.field.language">
+        <source>Language</source>
+      </trans-unit>
+      <trans-unit id="settings.option.language.auto" resname="settings.option.language.auto">
+        <source>Automatic</source>
+      </trans-unit>
+      <trans-unit id="settings.option.language.en" resname="settings.option.language.en">
+        <source>English</source>
+      </trans-unit>
+      <trans-unit id="settings.option.language.de" resname="settings.option.language.de">
+        <source>German</source>
+      </trans-unit>
+      <trans-unit id="settings.option.language.es" resname="settings.option.language.es">
+        <source>Spanish</source>
+      </trans-unit>
+      <trans-unit id="settings.option.language.fr" resname="settings.option.language.fr">
+        <source>French</source>
+      </trans-unit>
+      <trans-unit id="settings.option.language.it" resname="settings.option.language.it">
+        <source>Italian</source>
+      </trans-unit>
+      <trans-unit id="settings.option.language.nl" resname="settings.option.language.nl">
+        <source>Dutch</source>
+      </trans-unit>
+      <trans-unit id="settings.option.language.sv" resname="settings.option.language.sv">
+        <source>Swedish</source>
+      </trans-unit>
+      <trans-unit id="settings.option.language.no" resname="settings.option.language.no">
+        <source>Norwegian</source>
+      </trans-unit>
+      <trans-unit id="settings.option.language.pl" resname="settings.option.language.pl">
+        <source>Polish</source>
+      </trans-unit>
+      <trans-unit id="settings.option.language.fi" resname="settings.option.language.fi">
+        <source>Finnish</source>
+      </trans-unit>
+      <trans-unit id="settings.option.language.et" resname="settings.option.language.et">
+        <source>Estonian</source>
+      </trans-unit>
+      <trans-unit id="settings.option.language.uk" resname="settings.option.language.uk">
+        <source>Ukrainian</source>
+      </trans-unit>
+      <trans-unit id="settings.option.language.tr" resname="settings.option.language.tr">
+        <source>Turkish</source>
+      </trans-unit>
+      <trans-unit id="settings.field.startMode" resname="settings.field.startMode">
+        <source>Start mode</source>
+      </trans-unit>
+      <trans-unit id="settings.option.startMode.auto" resname="settings.option.startMode.auto">
+        <source>Automatic</source>
+      </trans-unit>
+      <trans-unit id="settings.option.startMode.click" resname="settings.option.startMode.click">
+        <source>On click</source>
+      </trans-unit>
+      <trans-unit id="settings.field.euIsolation" resname="settings.field.euIsolation">
+        <source>EU isolation</source>
+      </trans-unit>
+      <trans-unit id="settings.field.customRootDomain" resname="settings.field.customRootDomain">
+        <source>Custom root domain</source>
+      </trans-unit>
+      <trans-unit id="settings.field.customRootDomainHelp" resname="settings.field.customRootDomainHelp">
+        <source>Overrides EU isolation. The API host receives credentials and solutions; the CDN host serves browser-executed JavaScript.</source>
+      </trans-unit>
+      <trans-unit id="settings.field.debug" resname="settings.field.debug">
+        <source>Debug mode</source>
+      </trans-unit>
+      <trans-unit id="settings.field.debugHelp" resname="settings.field.debugHelp">
+        <source>Shows widget diagnostics in the browser console; keys and solutions remain private.</source>
+      </trans-unit>
+      <trans-unit id="settings.field.customStyles" resname="settings.field.customStyles">
+        <source>Custom widget styles</source>
+      </trans-unit>
+      <trans-unit id="settings.status.connection" resname="settings.status.connection">
+        <source>Status</source>
+      </trans-unit>
+      <trans-unit id="settings.status.notTested" resname="settings.status.notTested">
+        <source>Not tested</source>
+      </trans-unit>
+      <trans-unit id="settings.status.successful" resname="settings.status.successful">
+        <source>Successful</source>
+      </trans-unit>
+      <trans-unit id="settings.status.failed" resname="settings.status.failed">
+        <source>Failed</source>
+      </trans-unit>
+      <trans-unit id="settings.status.lastTest" resname="settings.status.lastTest">
+        <source>Last test</source>
+      </trans-unit>
+      <trans-unit id="settings.status.never" resname="settings.status.never">
+        <source>Never</source>
+      </trans-unit>
+      <trans-unit id="settings.action.save" resname="settings.action.save">
+        <source>Save</source>
+      </trans-unit>
+      <trans-unit id="settings.action.test" resname="settings.action.test">
+        <source>Test connection</source>
+      </trans-unit>
+      <trans-unit id="settings.action.reset" resname="settings.action.reset">
+        <source>Reset</source>
+      </trans-unit>
+      <trans-unit id="settings.action.resetTitle" resname="settings.action.resetTitle">
+        <source>Reset Private Captcha settings?</source>
+      </trans-unit>
+      <trans-unit id="settings.action.resetConfirmation" resname="settings.action.resetConfirmation">
+        <source>Removes saved settings and disables integrations for this scope. Environment API keys are unchanged.</source>
+      </trans-unit>
+      <trans-unit id="settings.action.cancel" resname="settings.action.cancel">
+        <source>Cancel</source>
+      </trans-unit>
+      <trans-unit id="settings.notice.saveSuccess" resname="settings.notice.saveSuccess">
+        <source>Settings saved.</source>
+      </trans-unit>
+      <trans-unit id="settings.notice.saveFailure" resname="settings.notice.saveFailure">
+        <source>Settings saved. Connection test failed. Integrations were disabled.</source>
+      </trans-unit>
+      <trans-unit id="settings.notice.testSuccess" resname="settings.notice.testSuccess">
+        <source>Connection test succeeded.</source>
+      </trans-unit>
+      <trans-unit id="settings.notice.testFailure" resname="settings.notice.testFailure">
+        <source>Connection test failed.</source>
+      </trans-unit>
+      <trans-unit id="settings.notice.reset" resname="settings.notice.reset">
+        <source>Settings reset.</source>
+      </trans-unit>
+      <trans-unit id="settings.notice.invalid" resname="settings.notice.invalid">
+        <source>Invalid settings. Nothing was changed.</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

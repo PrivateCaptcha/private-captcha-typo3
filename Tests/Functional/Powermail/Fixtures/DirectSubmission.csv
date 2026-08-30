@@ -1,0 +1,19 @@
+"pages"
+,"uid","pid","sorting","title","slug","deleted","perms_everybody"
+,1,0,128,"Powermail","/",0,15
+"tx_powermail_domain_model_form"
+,"uid","pid","title","pages","deleted","hidden","sys_language_uid"
+,100,1,"Direct submission",1,0,0,0
+,200,1,"Conflicting marker",201,0,0,0
+,300,1,"No captcha",301,0,0,0
+"tx_powermail_domain_model_page"
+,"uid","pid","form","title","fields","sorting","deleted","hidden","sys_language_uid"
+,101,1,100,"Fields",2,256,0,0,0
+,201,1,200,"Fields",1,256,0,0,0
+,301,1,300,"Fields",1,256,0,0,0
+"tx_powermail_domain_model_field"
+,"uid","pid","page","title","type","marker","mandatory","sorting","deleted","hidden","sys_language_uid"
+,102,1,101,"Name","input","name",1,256,0,0,0
+,103,1,101,"Private Captcha","privateCaptcha","security",0,512,0,0,0
+,202,1,201,"Private Captcha","privateCaptcha","name",0,256,0,0,0
+,302,1,301,"Name","input","name",1,256,0,0,0

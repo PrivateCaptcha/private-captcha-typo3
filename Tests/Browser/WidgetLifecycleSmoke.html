@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" href="data:,">
+    <title>Private Captcha widget lifecycle smoke test</title>
+</head>
+<body>
+    <form id="first-form">
+        <input type="hidden" name="first-solution">
+        <input type="hidden" name="second-solution">
+        <div class="private-captcha" data-private-captcha-widget="true" data-solution-field="first-solution" data-store-variable="firstWidget"></div>
+        <div class="private-captcha" data-private-captcha-widget="true" data-solution-field="second-solution" data-store-variable="secondWidget"></div>
+        <button id="first-submit" type="submit" formnovalidate>Submit first form</button>
+        <button id="pre-disabled" type="submit" disabled>Unavailable action</button>
+        <button id="reassigned-submit" type="submit" form="second-form">Submit second form from first</button>
+    </form>
+    <form id="second-form">
+        <input type="hidden" name="third-solution">
+        <div class="private-captcha" data-private-captcha-widget="true" data-solution-field="third-solution" data-store-variable="thirdWidget"></div>
+        <button id="second-submit">Submit second form</button>
+    </form>
+    <button id="external-submit" type="submit" form="first-form">Submit first form externally</button>
+    <button id="normalized-submit" type="invalid" form="first-form">Submit with normalized type</button>
+    <output id="result">PENDING</output>
+
+    <script>
+        document.querySelector('[name="first-solution"]').value = 'stale-first-solution';
+        document.querySelector('[name="second-solution"]').value = 'stale-second-solution';
+        document.querySelector('[name="third-solution"]').value = 'stale-third-solution';
+    </script>
+    <script type="module" src="../../Resources/Public/JavaScript/private-captcha.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            const result = document.getElementById('result');
+            const firstForm = document.getElementById('first-form');
+            const firstSubmit = document.getElementById('first-submit');
+            const preDisabled = document.getElementById('pre-disabled');
+            const reassignedSubmit = document.getElementById('reassigned-submit');
+            const secondSubmit = document.getElementById('second-submit');
+            const externalSubmit = document.getElementById('external-submit');
+            const normalizedSubmit = document.getElementById('normalized-submit');
+            const widgets = Array.from(document.querySelectorAll('.private-captcha'));
+            const fields = ['first-solution', 'second-solution', 'third-solution']
+                .map((name) => document.querySelector(`[name="${name}"]`));
+            const resetCounts = [0, 0, 0];
+            const solutions = ['', '', ''];
+
+            const assert = (condition, message) => {
+                if (!condition) {
+                    throw new Error(message);
+                }
+            };
+            const dispatch = (widget, name) => widget.dispatchEvent(new CustomEvent(name, {
+                detail: { element: widget, widget: widget[widget.dataset.storeVariable] },
+            }));
+
+            try {
+                widgets.forEach((widget, index) => {
+                    widget[widget.dataset.storeVariable] = {
+                        reset: () => {
+                            solutions[index] = '';
+                            resetCounts[index] += 1;
+                            dispatch(widget, 'privatecaptcha:reset');
+                        },
+                        solution: () => solutions[index],
+                    };
+                });
+
+                assert(firstSubmit.disabled && secondSubmit.disabled, 'Each owning form must start disabled.');
+                assert(externalSubmit.disabled, 'An external submit control must follow its form owner.');
+                assert(normalizedSubmit.disabled, 'A button with a browser-normalized submit type must be disabled.');
+                assert(preDisabled.disabled, 'A control disabled by the host form must stay disabled.');
+                assert(fields.every((field) => field.value === ''), 'Initialization must clear stale submitted solutions.');
+
+                solutions[0] = 'first-solution';
+                fields[0].value = solutions[0];
+                dispatch(widgets[0], 'privatecaptcha:finish');
+                assert(firstSubmit.disabled, 'Every widget in a form must finish before submission is enabled.');
+                assert(secondSubmit.disabled, 'Finishing one form must not enable another form.');
+
+                solutions[2] = 'third-solution';
+                fields[2].value = solutions[2];
+                dispatch(widgets[2], 'privatecaptcha:finish');
+                assert(!secondSubmit.disabled, 'A completed form must be enabled independently.');
+                assert(!reassignedSubmit.disabled, 'A reassigned descendant control must follow its form owner.');
+                assert(firstSubmit.disabled, 'The incomplete form must remain disabled.');
+
+                solutions[1] = 'second-solution';
+                fields[1].value = solutions[1];
+                dispatch(widgets[1], 'privatecaptcha:finish');
+                assert(!firstSubmit.disabled, 'The form must enable after all of its widgets finish.');
+                assert(!externalSubmit.disabled, 'An external submit control must enable with its form owner.');
+                assert(!normalizedSubmit.disabled, 'A browser-normalized submit control must enable with its form owner.');
+                assert(preDisabled.disabled, 'Host-disabled controls must not be enabled on finish.');
+
+                dispatch(widgets[0], 'privatecaptcha:error');
+                assert(fields[0].value === '', 'A widget error must clear its submitted solution.');
+                assert(firstSubmit.disabled, 'A widget error must disable only its owning form.');
+                assert(externalSubmit.disabled, 'A widget error must disable external controls owned by its form.');
+                assert(normalizedSubmit.disabled, 'A widget error must disable normalized submit controls owned by its form.');
+                assert(!secondSubmit.disabled, 'A widget error must not disable another form.');
+
+                firstForm.reset();
+                assert(resetCounts[0] === 1 && resetCounts[1] === 1 && resetCounts[2] === 0, 'Form reset must reset only widgets in that form.');
+                assert(fields[0].value === '' && fields[1].value === '', 'Form reset must clear only that form solutions.');
+                assert(fields[2].value === 'third-solution', 'Resetting one form must preserve another form solution.');
+
+                solutions[1] = 'new-second-solution';
+                fields[1].value = solutions[1];
+                dispatch(widgets[1], 'privatecaptcha:finish');
+                dispatch(widgets[0], 'privatecaptcha:finish');
+                assert(firstSubmit.disabled && externalSubmit.disabled && normalizedSubmit.disabled, 'A delayed finish after reset must not enable submission without a solution.');
+
+                window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true }));
+                assert(resetCounts[0] === 2 && resetCounts[1] === 2 && resetCounts[2] === 1, 'BFCache redisplay must reset every displayed widget.');
+                assert(fields.every((field) => field.value === ''), 'BFCache redisplay must clear every submitted solution.');
+                assert(firstSubmit.disabled && secondSubmit.disabled && externalSubmit.disabled && normalizedSubmit.disabled, 'Redisplayed forms must require fresh solutions.');
+                assert(preDisabled.disabled, 'Redisplay must preserve host-disabled controls.');
+
+                result.value = 'PASS';
+                result.textContent = 'PASS';
+            } catch (error) {
+                result.value = 'FAIL: ' + error.message;
+                result.textContent = result.value;
+                console.error(error);
+            }
+        }, { once: true });
+    </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  PrivateCaptcha\Typo3\Configuration\:
+    resource: '../Classes/Configuration/*'
+
+  PrivateCaptcha\Typo3\Configuration\ConfigurationResolver:
+    public: true
+
+  PrivateCaptcha\Typo3\Authentication\FrontendCaptchaAuthenticationService:
+    public: true
+    shared: false
+
+  PrivateCaptcha\Typo3\Authentication\BackendCaptchaAuthenticationService:
+    public: true
+    shared: false
+
+  PrivateCaptcha\Typo3\Command\BackendStatusCommand:
+    tags:
+      - name: console.command
+        command: 'private-captcha:backend:status'
+        description: 'Report Private Captcha backend login protection status'
+        schedulable: false
+
+  PrivateCaptcha\Typo3\Command\BackendDisableCommand:
+    tags:
+      - name: console.command
+        command: 'private-captcha:backend:disable'
+        description: 'Disable Private Captcha backend login protection'
+        schedulable: false
+
+  PrivateCaptcha\Typo3\Controller\:
+    resource: '../Classes/Controller/*'
+
+  PrivateCaptcha\Typo3\EventListener\ContentSecurityPolicyListener:
+    tags:
+      - name: event.listener
+        identifier: 'private-captcha/content-security-policy'
+        event: TYPO3\CMS\Core\Security\ContentSecurityPolicy\Event\PolicyMutatedEvent
+
+  PrivateCaptcha\Typo3\EventListener\FrontendLoginViewListener:
+    tags:
+      - name: event.listener
+        identifier: 'private-captcha/frontend-login-view'
+        event: TYPO3\CMS\FrontendLogin\Event\ModifyLoginFormViewEvent
+
+  PrivateCaptcha\Typo3\Form\:
+    resource: '../Classes/Form/*'
+    exclude:
+      - '../Classes/Form/FormProofBinding.php'
+
+  PrivateCaptcha\Typo3\Form\FormFieldNameResolver:
+    public: true
+
+  PrivateCaptcha\Typo3\Form\FormRenderedSitekeyStore:
+    public: true
+
+  PrivateCaptcha\Typo3\Form\FormRuntimeAdapter:
+    public: true
+    tags:
+      - name: event.listener
+        identifier: 'private-captcha/form/install-validator'
+        event: TYPO3\CMS\Form\Event\AfterFormIsBuiltEvent
+        method: afterFormIsBuilt
+      - name: event.listener
+        identifier: 'private-captcha/form/suppress-solution'
+        event: TYPO3\CMS\Form\Event\BeforeRenderableIsValidatedEvent
+        method: beforeRenderableIsValidated
+      - name: event.listener
+        identifier: 'private-captcha/form/enforce-guard'
+        event: TYPO3\CMS\Form\Event\AfterCurrentPageIsResolvedEvent
+        method: afterCurrentPageIsResolved
+      - name: event.listener
+        identifier: 'private-captcha/form/prepare-rendering'
+        event: TYPO3\CMS\Form\Event\BeforeRenderableIsRenderedEvent
+        method: beforeRenderableIsRendered
+
+  PrivateCaptcha\Typo3\Form\PrivateCaptchaValidator:
+    public: true
+    shared: false
+
+  PrivateCaptcha\Typo3\Form\PrivateCaptchaGuardFinisher:
+    shared: false
+
+  PrivateCaptcha\Typo3\LoginProvider\PrivateCaptchaLoginProvider:
+    public: true
+
+  PrivateCaptcha\Typo3\Middleware\:
+    resource: '../Classes/Middleware/*'
+
+  PrivateCaptcha\Typo3\Service\:
+    resource: '../Classes/Service/*'
+
+  PrivateCaptcha\Typo3\Service\CaptchaVerifierInterface:
+    alias: PrivateCaptcha\Typo3\Service\CaptchaVerifier
+    public: true
+
+  PrivateCaptcha\Typo3\Service\PrivateCaptchaClientFactoryInterface:
+    alias: PrivateCaptcha\Typo3\Service\PrivateCaptchaClientFactory
+
+  PrivateCaptcha\Typo3\Service\TestPuzzleClientInterface:
+    alias: PrivateCaptcha\Typo3\Service\TestPuzzleClient

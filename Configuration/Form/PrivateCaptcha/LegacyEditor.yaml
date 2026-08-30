@@ -1,0 +1,8 @@
+prototypes:
+  standard:
+    formEditor:
+      dynamicJavaScriptModules:
+        additionalViewModelModules:
+          1774639825: '@private-captcha/typo3/FormEditor/private-captcha.js'
+      formEditorPartials:
+        FormElement-PrivateCaptcha: Stage/SimpleTemplate

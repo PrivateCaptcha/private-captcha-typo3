@@ -1,0 +1,11 @@
+<?php
+
+declare(strict_types=1);
+
+namespace TYPO3\CMS\Core\Service;
+
+class FlexFormService
+{
+    /** @return array<string, mixed> */
+    public function convertFlexFormContentToArray(string $flexFormContent): array {}
+}

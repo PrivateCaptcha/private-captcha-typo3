@@ -1,0 +1,35 @@
+@import 'EXT:powermail/Configuration/TypoScript/Main/setup.typoscript'
+
+config.no_cache = 1
+
+plugin.tx_powermail.settings.setup {
+    main {
+        form = 100
+        confirmation = 0
+        moresteps = 0
+        optin = 0
+        pid = 1
+    }
+
+    db {
+        enable = 1
+        hidden = 0
+    }
+    receiver.enable = 0
+    sender.enable = 0
+    spamshield {
+        _enable = 1
+        factor = 75
+        email =
+        logfileLocation =
+    }
+    validation.server = 1
+}
+
+page = PAGE
+page.10 = EXTBASEPLUGIN
+page.10 {
+    extensionName = Powermail
+    pluginName = Pi1
+    settings < plugin.tx_powermail.settings.setup
+}

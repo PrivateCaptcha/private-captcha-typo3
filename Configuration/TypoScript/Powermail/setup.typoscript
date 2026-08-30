@@ -1,0 +1,12 @@
+plugin.tx_powermail.view.partialRootPaths.1774640000 = EXT:private_captcha/Resources/Private/Powermail/
+
+lib.privateCaptchaPowermail = USER
+lib.privateCaptchaPowermail.userFunc = PrivateCaptcha\Typo3\Powermail\PowermailRegistration->renderWidget
+
+plugin.tx_powermail.settings.setup.excludeFromPowermailAllMarker {
+    confirmationPage.excludeFromFieldTypes := addToList(privateCaptcha)
+    submitPage.excludeFromFieldTypes := addToList(privateCaptcha)
+    receiverMail.excludeFromFieldTypes := addToList(privateCaptcha)
+    senderMail.excludeFromFieldTypes := addToList(privateCaptcha)
+    optinMail.excludeFromFieldTypes := addToList(privateCaptcha)
+}

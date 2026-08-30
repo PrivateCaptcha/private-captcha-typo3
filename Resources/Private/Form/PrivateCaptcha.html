@@ -1,0 +1,23 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:formvh="http://typo3.org/ns/TYPO3/CMS/Form/ViewHelpers" data-namespace-typo3-fluid="true">
+<formvh:renderRenderable renderable="{element}">
+    <f:form.validationResults for="{element.rootForm.identifier}.{element.identifier}">
+        <div class="{element.properties.containerClassAttribute}">
+            <f:form.hidden
+                property="{element.identifier}"
+                id="{element.uniqueIdentifier}"
+                class="{element.properties.elementClassAttribute}"
+                value=""
+                respectSubmittedDataValue="false"
+            />
+            {element.properties.privateCaptchaMarkup -> f:format.raw()}
+            <f:if condition="{validationResults.errors}">
+                <div class="private-captcha-errors" role="alert">
+                    <f:for each="{validationResults.errors}" as="error">
+                        <span>{error.message}</span>
+                    </f:for>
+                </div>
+            </f:if>
+        </div>
+    </f:form.validationResults>
+</formvh:renderRenderable>
+</html>

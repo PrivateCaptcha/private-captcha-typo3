@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" target-language="fr" datatype="plaintext" original="messages" date="2026-08-30T00:00:00Z" product-name="private_captcha">
+    <header/>
+    <body>
+      <trans-unit id="widget.javascriptRequired" resname="widget.javascriptRequired">
+        <source>JavaScript is required to complete this CAPTCHA.</source>
+        <target>JavaScript doit être activé pour valider ce CAPTCHA.</target>
+      </trans-unit>
+      <trans-unit id="powermail.field.label" resname="powermail.field.label">
+        <source>Private Captcha</source>
+        <target>Private Captcha</target>
+      </trans-unit>
+      <trans-unit id="powermail.warning.label" resname="powermail.warning.label">
+        <source>Warning: Private Captcha is not protecting this form.</source>
+        <target>Avertissement : Private Captcha ne protège pas ce formulaire.</target>
+      </trans-unit>
+      <trans-unit id="powermail.warning.description" resname="powermail.warning.description">
+        <source>Enable the Powermail integration and configure valid Private Captcha credentials for this site before publishing the form.</source>
+        <target>Activez l'intégration Powermail et configurez des identifiants Private Captcha valides pour ce site avant de publier le formulaire.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,307 @@
+<html
+    xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+    data-namespace-typo3-fluid="true"
+>
+
+<f:if condition="{settings.protectionEnabled}">
+    <f:then>
+        <div class="alert alert-success" role="status">
+            <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.protectionEnabled" />
+        </div>
+    </f:then>
+    <f:else>
+        <div class="alert alert-warning" role="status">
+            <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.protectionDisabled" />
+        </div>
+    </f:else>
+</f:if>
+
+<form id="private-captcha-settings" action="{settingsActionUri}" method="post">
+    <fieldset class="mb-4">
+        <legend class="h2"><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.section.account" /></legend>
+
+        <div class="form-group">
+            <label class="form-label" for="private-captcha-api-key">
+                <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.apiKey" />
+            </label>
+            <input
+                class="form-control"
+                id="private-captcha-api-key"
+                name="settings[apiKey]"
+                type="password"
+                autocomplete="new-password"
+                maxlength="4096"
+                placeholder="{f:if(condition: settings.apiKeyConfigured, then: '{f:translate(key: \'LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.apiKeyConfigured\')}', else: '{f:translate(key: \'LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.apiKeyEmpty\')}')}"
+                aria-describedby="private-captcha-api-key-help"
+            />
+            <div class="form-text" id="private-captcha-api-key-help">
+                <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.apiKeyHelp" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="private-captcha-sitekey">
+                <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.sitekey" />
+            </label>
+            <input
+                class="form-control"
+                id="private-captcha-sitekey"
+                name="settings[sitekey]"
+                type="text"
+                value="{settings.sitekey}"
+                autocomplete="off"
+            />
+        </div>
+    </fieldset>
+
+    <fieldset class="mb-4">
+        <legend class="h2"><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.section.integrations" /></legend>
+
+        <f:if condition="{siteSelected}">
+            <div class="form-group">
+                <div class="form-check form-switch form-check-size-input">
+                    <input type="hidden" name="settings[formFrameworkEnabled]" value="0" />
+                    <input
+                        class="form-check-input"
+                        id="private-captcha-form-framework"
+                        name="settings[formFrameworkEnabled]"
+                        type="checkbox"
+                        value="1"
+                        {f:if(condition: settings.formFrameworkEnabled, then: 'checked')}
+                    />
+                    <label class="form-check-label" for="private-captcha-form-framework">
+                        <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.formFramework" />
+                    </label>
+                </div>
+            </div>
+
+            <f:if condition="{powermailAvailable}">
+                <div class="form-group">
+                    <div class="form-check form-switch form-check-size-input">
+                        <input type="hidden" name="settings[powermailEnabled]" value="0" />
+                        <input
+                            class="form-check-input"
+                            id="private-captcha-powermail"
+                            name="settings[powermailEnabled]"
+                            type="checkbox"
+                            value="1"
+                            {f:if(condition: settings.powermailEnabled, then: 'checked')}
+                        />
+                        <label class="form-check-label" for="private-captcha-powermail">
+                            <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.powermail" />
+                        </label>
+                    </div>
+                </div>
+            </f:if>
+
+            <div class="form-group">
+                <div class="form-check form-switch form-check-size-input">
+                    <input type="hidden" name="settings[frontendLoginEnabled]" value="0" />
+                    <input
+                        class="form-check-input"
+                        id="private-captcha-frontend-login"
+                        name="settings[frontendLoginEnabled]"
+                        type="checkbox"
+                        value="1"
+                        {f:if(condition: settings.frontendLoginEnabled, then: 'checked')}
+                    />
+                    <label class="form-check-label" for="private-captcha-frontend-login">
+                        <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.frontendLogin" />
+                    </label>
+                </div>
+            </div>
+        </f:if>
+
+        <f:if condition="{backendSelected}">
+            <div class="form-group">
+                <div class="form-check form-switch form-check-size-input">
+                    <input type="hidden" name="settings[backendLoginEnabled]" value="0" />
+                    <input
+                        class="form-check-input"
+                        id="private-captcha-backend-login"
+                        name="settings[backendLoginEnabled]"
+                        type="checkbox"
+                        value="1"
+                        aria-describedby="private-captcha-backend-login-help"
+                        {f:if(condition: settings.backendLoginEnabled, then: 'checked')}
+                    />
+                    <label class="form-check-label" for="private-captcha-backend-login">
+                        <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.backendLogin" />
+                    </label>
+                </div>
+            </div>
+            <p class="form-text" id="private-captcha-backend-login-help">
+                <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.backendLoginHelp" />
+            </p>
+        </f:if>
+    </fieldset>
+
+    <fieldset class="mb-4">
+        <legend class="h2"><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.section.widget" /></legend>
+
+        <div class="form-group">
+            <label class="form-label" for="private-captcha-theme">
+                <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.theme" />
+            </label>
+            <select class="form-select" id="private-captcha-theme" name="settings[theme]">
+                <option value="light" {f:if(condition: "{settings.theme} == 'light'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.theme.light" /></option>
+                <option value="dark" {f:if(condition: "{settings.theme} == 'dark'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.theme.dark" /></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="private-captcha-language">
+                <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.language" />
+            </label>
+            <select class="form-select" id="private-captcha-language" name="settings[language]">
+                <option value="auto" {f:if(condition: "{settings.language} == 'auto'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.language.auto" /></option>
+                <option value="en" {f:if(condition: "{settings.language} == 'en'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.language.en" /></option>
+                <option value="de" {f:if(condition: "{settings.language} == 'de'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.language.de" /></option>
+                <option value="es" {f:if(condition: "{settings.language} == 'es'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.language.es" /></option>
+                <option value="fr" {f:if(condition: "{settings.language} == 'fr'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.language.fr" /></option>
+                <option value="it" {f:if(condition: "{settings.language} == 'it'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.language.it" /></option>
+                <option value="nl" {f:if(condition: "{settings.language} == 'nl'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.language.nl" /></option>
+                <option value="sv" {f:if(condition: "{settings.language} == 'sv'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.language.sv" /></option>
+                <option value="no" {f:if(condition: "{settings.language} == 'no'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.language.no" /></option>
+                <option value="pl" {f:if(condition: "{settings.language} == 'pl'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.language.pl" /></option>
+                <option value="fi" {f:if(condition: "{settings.language} == 'fi'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.language.fi" /></option>
+                <option value="et" {f:if(condition: "{settings.language} == 'et'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.language.et" /></option>
+                <option value="uk" {f:if(condition: "{settings.language} == 'uk'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.language.uk" /></option>
+                <option value="tr" {f:if(condition: "{settings.language} == 'tr'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.language.tr" /></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="private-captcha-start-mode">
+                <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.startMode" />
+            </label>
+            <select class="form-select" id="private-captcha-start-mode" name="settings[startMode]">
+                <option value="auto" {f:if(condition: "{settings.startMode} == 'auto'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.startMode.auto" /></option>
+                <option value="click" {f:if(condition: "{settings.startMode} == 'click'", then: 'selected')}><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.option.startMode.click" /></option>
+            </select>
+        </div>
+
+    </fieldset>
+
+    <fieldset class="mb-4">
+        <legend class="h2"><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.section.advanced" /></legend>
+
+        <div class="form-group">
+            <div class="form-check form-switch form-check-size-input">
+                <input type="hidden" name="settings[euIsolation]" value="0" />
+                <input
+                    class="form-check-input"
+                    id="private-captcha-eu-isolation"
+                    name="settings[euIsolation]"
+                    type="checkbox"
+                    value="1"
+                    {f:if(condition: settings.euIsolation, then: 'checked')}
+                />
+                <label class="form-check-label" for="private-captcha-eu-isolation">
+                    <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.euIsolation" />
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="private-captcha-custom-root-domain">
+                <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.customRootDomain" />
+            </label>
+            <input
+                class="form-control"
+                id="private-captcha-custom-root-domain"
+                name="settings[customRootDomain]"
+                type="text"
+                value="{settings.customRootDomain}"
+                aria-describedby="private-captcha-custom-root-domain-help"
+            />
+            <div class="form-text" id="private-captcha-custom-root-domain-help">
+                <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.customRootDomainHelp" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-check form-switch form-check-size-input">
+                <input type="hidden" name="settings[debug]" value="0" />
+                <input
+                    class="form-check-input"
+                    id="private-captcha-debug"
+                    name="settings[debug]"
+                    type="checkbox"
+                    value="1"
+                    aria-describedby="private-captcha-debug-help"
+                    {f:if(condition: settings.debug, then: 'checked')}
+                />
+                <label class="form-check-label" for="private-captcha-debug">
+                    <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.debug" />
+                </label>
+            </div>
+            <div class="form-text" id="private-captcha-debug-help">
+                <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.debugHelp" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="private-captcha-custom-styles">
+                <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.field.customStyles" />
+            </label>
+            <textarea
+                class="form-control"
+                id="private-captcha-custom-styles"
+                name="settings[customStyles]"
+                rows="5"
+                maxlength="2048"
+            >{settings.customStyles}</textarea>
+        </div>
+    </fieldset>
+
+    <section class="mb-4" aria-labelledby="private-captcha-status-heading">
+        <h2 id="private-captcha-status-heading"><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.section.status" /></h2>
+        <dl>
+            <dt><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.status.connection" /></dt>
+            <dd>
+                <f:if condition="{settings.connectionTested}">
+                    <f:then>
+                        <f:if condition="{settings.connectionSuccessful}">
+                            <f:then><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.status.successful" /></f:then>
+                            <f:else><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.status.failed" /></f:else>
+                        </f:if>
+                    </f:then>
+                    <f:else><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.status.notTested" /></f:else>
+                </f:if>
+            </dd>
+            <dt><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.status.lastTest" /></dt>
+            <dd>
+                <f:if condition="{settings.connectionTested}">
+                    <f:then>{settings.lastTestAt}</f:then>
+                    <f:else><f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.status.never" /></f:else>
+                </f:if>
+            </dd>
+        </dl>
+    </section>
+
+    <div class="btn-group" role="group" aria-label="{f:translate(key: 'LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.section.actions')}">
+        <button class="btn btn-primary" name="settingsAction" type="submit" value="save">
+            <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.action.save" />
+        </button>
+        <button class="btn btn-default" name="settingsAction" type="submit" value="test">
+            <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.action.test" />
+        </button>
+        <button
+            class="btn btn-danger t3js-modal-trigger"
+            name="settingsAction"
+            type="submit"
+            value="reset"
+            data-severity="error"
+            data-title="{f:translate(key: 'LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.action.resetTitle')}"
+            data-content="{f:translate(key: 'LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.action.resetConfirmation')}"
+            data-button-close-text="{f:translate(key: 'LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.action.cancel')}"
+            data-button-ok-text="{f:translate(key: 'LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.action.reset')}"
+            data-static-backdrop="true"
+        >
+            <f:translate key="LLL:EXT:private_captcha/Resources/Private/Language/locallang_mod.xlf:settings.action.reset" />
+        </button>
+    </div>
+</form>
+
+</html>

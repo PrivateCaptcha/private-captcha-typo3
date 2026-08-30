@@ -1,0 +1,192 @@
+<?php
+
+declare(strict_types=1);
+
+namespace In2code\Powermail\Domain\Model {
+    use TYPO3\CMS\Extbase\Persistence\Generic\LazyLoadingProxy;
+    use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
+
+    class Field
+    {
+        public function getUid(): ?int {}
+
+        public function getType(): string {}
+
+        public function getMarker(): string {}
+
+        public function setMarker(string $marker): void {}
+
+        public function getPage(): ?Page {}
+    }
+
+    class Page
+    {
+        public function removeField(Field $field): void {}
+    }
+
+    class Form
+    {
+        public function getUid(): ?int {}
+
+        public function setUid(int $uid): void {}
+
+        /** @return list<Field> */
+        public function getFields(string $fieldType = ''): array {}
+    }
+
+    class Answer
+    {
+        public function getValue(): mixed {}
+
+        public function getRawValue(): string|int {}
+
+        public function getValueType(): int {}
+
+        public function setValue(mixed $value): self {}
+
+        public function getOriginalValue(): mixed {}
+
+        public function setOriginalValue(string $originalValue): void {}
+
+        public function getField(): ?Field {}
+
+        public function setField(Field $field): self {}
+
+        public function setMail(Mail $mail): self {}
+    }
+
+    class Mail
+    {
+        public function getUid(): ?int {}
+
+        public function _setProperty(string $propertyName, mixed $value): bool {}
+
+        public function setPid(int $pid): void {}
+
+        public function setForm(Form $form): self {}
+
+        public function getForm(): Form|LazyLoadingProxy|null {}
+
+        /** @return ObjectStorage<Answer> */
+        public function getAnswers(): ObjectStorage {}
+
+        public function addAnswer(Answer $answer): void {}
+
+        public function removeAnswer(Answer $answer): void {}
+    }
+}
+
+namespace In2code\Powermail\Domain\Repository {
+    use In2code\Powermail\Domain\Model\Form;
+
+    class FormRepository
+    {
+        public function findByUid(int $uid): ?Form {}
+    }
+}
+
+namespace In2code\Powermail\Domain\Service {
+    class ConfigurationService
+    {
+        /** @return array<string, mixed> */
+        public function getTypoScriptSettings(string $pluginName = 'Pi1'): array {}
+    }
+}
+
+namespace In2code\Powermail\Domain\Validator {
+    use Psr\Http\Message\ServerRequestInterface;
+    use TYPO3\CMS\Extbase\Error\Result;
+
+    class CustomValidator
+    {
+        public function setRequest(?ServerRequestInterface $request): void {}
+
+        public function getRequest(): ?ServerRequestInterface {}
+
+        public function validate(mixed $value): Result {}
+
+        public function setErrorAndMessage(\In2code\Powermail\Domain\Model\Field $field, string $label): void {}
+    }
+}
+
+namespace In2code\Powermail\DataProcessor {
+    use In2code\Powermail\Domain\Model\Mail;
+    use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+
+    class DataProcessorRunner
+    {
+        public function callDataProcessors(
+            Mail $mail,
+            string $actionMethodName,
+            array $settings,
+            ContentObjectRenderer $contentObject
+        ): void {}
+    }
+
+    abstract class AbstractDataProcessor
+    {
+        protected Mail $mail;
+
+        public function getActionMethodName(): string {}
+    }
+}
+
+namespace In2code\Powermail\Controller {
+    use TYPO3\CMS\Extbase\Mvc\RequestInterface;
+
+    class FormController
+    {
+        public function getRequest(): ?RequestInterface {}
+
+        /** @return array<string, mixed> */
+        public function getSettings(): array {}
+    }
+}
+
+namespace In2code\Powermail\Events {
+    use In2code\Powermail\Controller\FormController;
+    use In2code\Powermail\Domain\Model\Mail;
+    use In2code\Powermail\Domain\Validator\CustomValidator;
+
+    final class CustomValidatorEvent
+    {
+        public function getMail(): Mail {}
+
+        public function getCustomValidator(): CustomValidator {}
+    }
+
+    final class FormControllerConfirmationActionEvent
+    {
+        public function __construct(Mail $mail, FormController $formController) {}
+
+        public function getMail(): Mail {}
+
+        public function getFormController(): FormController {}
+    }
+
+    final class FormControllerFormActionEvent
+    {
+        public function getForm(): ?\In2code\Powermail\Domain\Model\Form {}
+
+        public function getFormController(): FormController {}
+
+        public function getRequest(): ?\TYPO3\CMS\Extbase\Mvc\RequestInterface {}
+    }
+}
+
+namespace In2code\Powermail\Utility {
+    final class ConfigurationUtility
+    {
+        public static function isReplaceIrreWithElementBrowserActive(): bool {}
+
+        /** @return array<string, mixed> */
+        public static function mergeTypoScript2FlexForm(array $settings, string $typoScriptLevel = 'setup'): array {}
+    }
+
+    final class HashUtility
+    {
+        public static function getHash(\In2code\Powermail\Domain\Model\Mail $mail): string {}
+
+        public static function isHashValid(string $hash, \In2code\Powermail\Domain\Model\Mail $mail): bool {}
+    }
+}

@@ -1,0 +1,7 @@
+config {
+    no_cache = 1
+}
+
+page = PAGE
+page.10 = TEXT
+page.10.value = Frontend authentication

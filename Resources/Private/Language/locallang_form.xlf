@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="messages" date="2026-08-22T00:00:00Z" product-name="private_captcha">
+    <header/>
+    <body>
+      <trans-unit id="formEditor.elements.PrivateCaptcha.label" resname="formEditor.elements.PrivateCaptcha.label">
+        <source>Private Captcha</source>
+      </trans-unit>
+      <trans-unit id="formEditor.elements.PrivateCaptcha.description" resname="formEditor.elements.PrivateCaptcha.description">
+        <source>Requires the Form Framework integration and valid credentials; otherwise submissions are blocked.</source>
+      </trans-unit>
+      <trans-unit id="validation.verificationFailed" resname="validation.verificationFailed">
+        <source>The CAPTCHA could not be verified. Please try again.</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

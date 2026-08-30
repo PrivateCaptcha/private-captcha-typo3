@@ -1,0 +1,6 @@
+services:
+  PrivateCaptcha\Typo3\Tests\Functional\Powermail\Fixtures\FakeCaptchaVerifier: ~
+
+  PrivateCaptcha\Typo3\Service\CaptchaVerifierInterface:
+    alias: PrivateCaptcha\Typo3\Tests\Functional\Powermail\Fixtures\FakeCaptchaVerifier
+    public: true

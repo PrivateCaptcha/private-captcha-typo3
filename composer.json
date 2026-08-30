@@ -1,0 +1,77 @@
+{
+    "name": "private-captcha/typo3",
+    "description": "Private Captcha integration for TYPO3",
+    "type": "typo3-cms-extension",
+    "license": "MIT",
+    "require": {
+        "ext-intl": "*",
+        "php": "^8.2",
+        "private-captcha/private-captcha-php": "^0.0.12",
+        "typo3/cms-backend": "^13.4 || ^14.0",
+        "typo3/cms-core": "^13.4 || ^14.0",
+        "typo3/cms-form": "^13.4 || ^14.0",
+        "typo3/cms-frontend": "^13.4 || ^14.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "php-parallel-lint/php-parallel-lint": "^1.4",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11.5",
+        "saschaegerer/phpstan-typo3": "^2.2 || ^3.1",
+        "typo3/coding-standards": "^0.9",
+        "typo3/cms-felogin": "^13.4 || ^14.0",
+        "typo3/testing-framework": "^9.6"
+    },
+    "suggest": {
+        "in2code/powermail": "Required for Powermail integration on TYPO3 13.4",
+        "typo3/cms-felogin": "Required for frontend login protection"
+    },
+    "autoload": {
+        "psr-4": {
+            "PrivateCaptcha\\Typo3\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PrivateCaptcha\\Typo3\\Tests\\": "Tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "typo3/class-alias-loader": true,
+            "typo3/cms-composer-installers": true
+        },
+        "audit": {
+            "abandoned": "report"
+        },
+        "bin-dir": ".Build/bin",
+        "sort-packages": true,
+        "vendor-dir": ".Build/vendor"
+    },
+    "scripts": {
+        "analyse": "@php -d memory_limit=256M .Build/bin/phpstan analyse --configuration=phpstan.neon --no-progress",
+        "cs:check": "php-cs-fixer fix --config=.php-cs-fixer.dist.php --dry-run --diff",
+        "cs:fix": "php-cs-fixer fix --config=.php-cs-fixer.dist.php",
+        "lint": "parallel-lint --exclude .Build --exclude var .",
+        "test": [
+            "@lint",
+            "@cs:check",
+            "@analyse",
+            "@test:unit",
+            "@test:functional",
+            "@composer audit"
+        ],
+        "test:functional": "phpunit --configuration=phpunit.xml.dist --testsuite=functional",
+        "test:unit": "phpunit --configuration=phpunit.xml.dist --testsuite=unit"
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "private_captcha",
+            "version": "0.1.0",
+            "Package": {
+                "providesPackages": {}
+            },
+            "web-dir": ".Build/Web"
+        }
+    }
+}

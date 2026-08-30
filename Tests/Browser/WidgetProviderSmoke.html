@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" href="data:,">
+    <title>Private Captcha provider smoke test</title>
+</head>
+<body>
+    <form id="first-provider-form">
+        <div
+            class="private-captcha"
+            data-private-captcha-widget="true"
+            data-sitekey="aaaaaaaabbbbccccddddeeeeeeeeeeee"
+            data-solution-field="first-solution"
+            data-store-variable="firstProviderWidget"
+        ></div>
+        <button type="submit">Submit first form</button>
+    </form>
+    <form id="second-provider-form">
+        <div
+            class="private-captcha"
+            data-private-captcha-widget="true"
+            data-sitekey="aaaaaaaabbbbccccddddeeeeeeeeeeee"
+            data-solution-field="second-solution"
+            data-store-variable="secondProviderWidget"
+        ></div>
+        <button type="submit">Submit second form</button>
+    </form>
+    <output id="result">PENDING</output>
+
+    <script src="https://cdn.privatecaptcha.com/widget/js/privatecaptcha.js" defer></script>
+    <script type="module" src="../../Resources/Public/JavaScript/private-captcha.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            window.setTimeout(() => {
+                const result = document.getElementById('result');
+                const widgets = Array.from(document.querySelectorAll('.private-captcha'));
+                const firstObject = widgets[0].firstProviderWidget;
+                const secondObject = widgets[1].secondProviderWidget;
+
+                try {
+                    if (!firstObject || typeof firstObject.reset !== 'function' || typeof firstObject.solution !== 'function') {
+                        throw new Error('The provider did not initialize the first widget object.');
+                    }
+                    if (!secondObject || typeof secondObject.reset !== 'function' || typeof secondObject.solution !== 'function') {
+                        throw new Error('The provider did not initialize the second widget object.');
+                    }
+                    if (firstObject === secondObject) {
+                        throw new Error('Provider widget objects are not isolated.');
+                    }
+                    if (!Array.from(document.querySelectorAll('button[type="submit"]')).every((button) => button.disabled)) {
+                        throw new Error('The lifecycle module did not scope submit gating to both forms.');
+                    }
+
+                    firstObject.reset();
+                    if (!document.querySelector('#first-provider-form button').disabled) {
+                        throw new Error('A real provider reset did not keep the owning form disabled.');
+                    }
+
+                    result.value = 'PASS';
+                    result.textContent = 'PASS';
+                } catch (error) {
+                    result.value = 'FAIL: ' + error.message;
+                    result.textContent = result.value;
+                    console.error(error);
+                }
+            }, 1500);
+        }, { once: true });
+    </script>
+</body>
+</html>
