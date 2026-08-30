@@ -8,6 +8,7 @@ parameters:
         - Tests
         - ext_localconf.php
     scanFiles:
-        - Tests/Stubs/Powermail.stub
         - Tests/Stubs/Typo3.stub
+    bootstrapFiles:
+        - Tests/Stubs/PowermailBootstrap.php
     tmpDir: .Build/phpstan-cache
