@@ -1,72 +1,40 @@
-# Powermail Integration
+# Powermail
 
-## Compatibility
+Supported only on TYPO3 `^13.4` with Powermail `>=13.2,<14.0`. Other integrations remain available on TYPO3 14.
 
-Powermail support is optional and available only with this combination:
-
-| Component | Supported version |
-|---|---|
-| TYPO3 | `^13.4` |
-| Powermail | `>=13.2,<14.0` |
-
-TYPO3 14 is not supported because no compatible Powermail release is available for this extension's current integration. The rest of Private Captcha remains available on TYPO3 14 without Powermail.
-
-## Installation
-
-From a TYPO3 13 project root, install a compatible Powermail release:
+## Install
 
 ```bash
 composer require in2code/powermail:^13.2
 ```
 
-Install `private-captcha/typo3` as described in the main [README](../README.md), then apply TYPO3's database schema update. The Private Captcha adapter registers automatically when a compatible, active Powermail package is detected.
+Install this extension and run TYPO3's database schema update. The adapter registers automatically when compatible Powermail is active.
 
-## Configuration
+## Configure
 
-1. Open **Site > Private Captcha** as a TYPO3 administrator.
-2. Select the site that renders the Powermail form.
-3. Enter the API key and sitekey.
-4. Enable **Powermail** and choose **Save**.
-5. Edit the Powermail form and add the distinct **Private Captcha** field type.
+1. Configure the form's site under **Site > Private Captcha**.
+2. Enable **Powermail** and save successfully.
+3. Add the distinct **Private Captcha** field to the Powermail form.
 
-The field type is offered only when Powermail protection is effective for the edited site. It does not replace or disable Powermail's built-in `captcha` field type or other spam protection.
+The field appears only when protection is effective for the edited site. Powermail's built-in `captcha` and other spam protection remain unchanged.
 
-## Submission Behavior
+## Submission
 
-The adapter supports Powermail forms with or without a confirmation page.
+| Flow | Behavior |
+|---|---|
+| Direct | Verifies once before mail creation, then removes the solution before persistence, spam checks, finishers, and output. |
+| Confirmation | Verifies before confirmation and replaces the solution with a short-lived, single-use proof. Final creation consumes the proof without a second provider call. |
 
-### Direct submission
+Confirmation proofs are bound to the session, form, CAPTCHA field, content element, sitekey, and submitted business values. Missing, expired, reused, or mismatched proofs fail. Returning from confirmation revokes the proof and requires a new solution.
 
-The submitted solution is verified once before Powermail creates the mail. Failure prevents creation. The raw solution is scrubbed from Powermail request and field data before normal persistence, spam checks, finishers, and output.
+Authenticated opt-in completion does not repeat verification.
 
-### Confirmation page
+The CAPTCHA field is omitted from confirmation, submitted values, email, opt-in output, and normal Powermail persistence. Do not expose raw solutions through custom templates, processors, logs, or mail variables.
 
-The solution is verified before confirmation is accepted. The adapter then replaces it with a short-lived opaque proof bound to the frontend session, form, Private Captcha field, content element, expected sitekey, and submitted business values.
+## States
 
-Final creation consumes that proof atomically instead of calling Private Captcha a second time. The final step fails if the proof is missing, expired, reused, belongs to another session or form, or if protected business values or the expected sitekey changed. Returning from confirmation revokes the outstanding proof and requires a new widget solution.
+Explicitly disabling Powermail protection suppresses the field and allows unprotected submission. Invalid configuration may still fail before the disabled flag is evaluated. Enabled protection with missing credentials or runtime errors fails closed.
 
-Authenticated Powermail opt-in completion does not repeat CAPTCHA verification after the original accepted submission.
+After removing Powermail, remove obsolete Private Captcha fields from affected forms.
 
-## Output and Persistence
-
-The Private Captcha field is excluded from:
-
-- confirmation output;
-- submitted-value output;
-- sender and receiver email output;
-- opt-in output;
-- normal Powermail persistence.
-
-Only the bounded proof required to continue a multi-step submission is retained temporarily. Raw CAPTCHA solutions must not be added to custom templates, data processors, logs, or mail variables.
-
-## Disabled and Invalid States
-
-If Powermail protection is explicitly disabled in otherwise valid site configuration, an existing Private Captcha field is suppressed and the form proceeds without CAPTCHA protection. This is an intentionally unprotected state and should be visible in operational reviews. Malformed persisted site settings can still reject submission before the disabled flag is evaluated.
-
-If protection is requested but credentials or runtime configuration are unavailable, the adapter fails closed and rejects submission rather than silently bypassing CAPTCHA.
-
-After disabling or removing Powermail, review forms that contain the Private Captcha field and remove obsolete field records if they are no longer needed.
-
-## Troubleshooting
-
-If the field type is missing, verify the TYPO3 and Powermail versions, confirm that Powermail is active, and successfully save and test the site settings. For submission, schema, CSP, or logging problems, see [Backend Recovery and Troubleshooting](Recovery.md).
+If the field type is missing, check TYPO3/Powermail versions, package activation, and effective site configuration. See [Recovery and troubleshooting](Recovery.md) for schema, CSP, and logging checks.
