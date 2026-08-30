@@ -1,14 +1,36 @@
 {
     "name": "private-captcha/typo3",
-    "description": "Private Captcha integration for TYPO3",
+    "description": "Private Captcha - CAPTCHA integration for TYPO3 forms and login",
+    "keywords": [
+        "captcha",
+        "forms",
+        "privacy",
+        "spam protection",
+        "typo3"
+    ],
     "type": "typo3-cms-extension",
+    "homepage": "https://privatecaptcha.com/",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Private Captcha",
+            "homepage": "https://privatecaptcha.com/",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/PrivateCaptcha/private-captcha-typo3/issues",
+        "source": "https://github.com/PrivateCaptcha/private-captcha-typo3",
+        "docs": "https://github.com/PrivateCaptcha/private-captcha-typo3/tree/main/Documentation"
+    },
     "require": {
         "ext-intl": "*",
         "php": "^8.2",
         "private-captcha/private-captcha-php": "^0.0.12",
         "typo3/cms-backend": "^13.4 || ^14.0",
         "typo3/cms-core": "^13.4 || ^14.0",
+        "typo3/cms-extbase": "^13.4 || ^14.0",
+        "typo3/cms-fluid": "^13.4 || ^14.0",
         "typo3/cms-form": "^13.4 || ^14.0",
         "typo3/cms-frontend": "^13.4 || ^14.0"
     },
@@ -35,6 +57,30 @@
         "psr-4": {
             "PrivateCaptcha\\Typo3\\Tests\\": "Tests/"
         }
+    },
+    "archive": {
+        "exclude": [
+            "/.Build/",
+            "/.DS_Store",
+            "/.env",
+            "/.env.*",
+            "/.gitattributes",
+            "/.github/",
+            "/.gitignore",
+            "/.idea/",
+            "/.php-cs-fixer.dist.php",
+            "/.vscode/",
+            "/Classes/.gitkeep",
+            "/Tests/",
+            "/auth.json",
+            "/composer.lock",
+            "/phpstan.neon",
+            "/phpunit.xml",
+            "/phpunit.xml.dist",
+            "/public/",
+            "/var/",
+            "/vendor/"
+        ]
     },
     "config": {
         "allow-plugins": {

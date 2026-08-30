@@ -1,4 +1,5 @@
 /.Build export-ignore
+/.DS_Store export-ignore
 /Classes/.gitkeep export-ignore
 /.env export-ignore
 /.env.* export-ignore
@@ -6,11 +7,15 @@
 /.gitattributes export-ignore
 /.github export-ignore
 /.gitignore export-ignore
+/.idea export-ignore
 /.php-cs-fixer.dist.php export-ignore
+/.vscode export-ignore
 /Tests export-ignore
+/auth.json export-ignore
 /composer.lock export-ignore
 /phpstan.neon export-ignore
 /phpunit.xml export-ignore
 /phpunit.xml.dist export-ignore
+/public export-ignore
 /var export-ignore
 /vendor export-ignore

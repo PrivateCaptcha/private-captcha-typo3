@@ -1,6 +1,14 @@
 /.Build/
+/.DS_Store
+/.env
+/.env.*
+/.idea/
 /.php-cs-fixer.cache
 /.phpunit.cache/
+/.vscode/
+/auth.json
 /composer.lock
 /phpstan.neon.local
+/public/
 /var/
+/vendor/
