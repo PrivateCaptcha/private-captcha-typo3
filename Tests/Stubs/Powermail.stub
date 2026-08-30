@@ -28,7 +28,9 @@ namespace In2code\Powermail\Domain\Model {
     {
         public function getUid(): ?int {}
 
-        public function setUid(int $uid): void {}
+        public function _setProperty(string $propertyName, mixed $value): bool {}
+
+        public function setPages(ObjectStorage $pages): void {}
 
         /** @return list<Field> */
         public function getFields(string $fieldType = ''): array {}
@@ -67,7 +69,7 @@ namespace In2code\Powermail\Domain\Model {
 
         public function getForm(): Form|LazyLoadingProxy|null {}
 
-        /** @return ObjectStorage<Answer> */
+        /** @return ObjectStorage<object> */
         public function getAnswers(): ObjectStorage {}
 
         public function addAnswer(Answer $answer): void {}

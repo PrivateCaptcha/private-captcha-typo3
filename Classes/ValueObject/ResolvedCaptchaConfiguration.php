@@ -25,12 +25,17 @@ final readonly class ResolvedCaptchaConfiguration implements \JsonSerializable
 
     public function apiKey(): string
     {
-        $apiKey = $this->apiKey->getValue();
+        $apiKey = self::sensitiveValue($this->apiKey);
         if (!is_string($apiKey)) {
             throw new \LogicException('Resolved API key must be a string.');
         }
 
         return $apiKey;
+    }
+
+    private static function sensitiveValue(\SensitiveParameterValue $value): mixed
+    {
+        return $value->getValue();
     }
 
     public function withSitekey(string $sitekey): self

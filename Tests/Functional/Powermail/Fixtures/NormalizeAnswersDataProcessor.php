@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace PrivateCaptcha\Typo3\Tests\Functional\Powermail\Fixtures;
 
 use In2code\Powermail\DataProcessor\AbstractDataProcessor;
+use In2code\Powermail\Domain\Model\Answer;
 use In2code\Powermail\Domain\Model\Form;
+use TYPO3\CMS\Extbase\Persistence\ObjectStorage;
 
 final class NormalizeAnswersDataProcessor extends AbstractDataProcessor
 {
@@ -16,6 +18,9 @@ final class NormalizeAnswersDataProcessor extends AbstractDataProcessor
         }
         $mutation = null;
         foreach ($this->mail->getAnswers() as $answer) {
+            if (!$answer instanceof Answer) {
+                throw new \RuntimeException('Powermail answer collection is invalid.');
+            }
             $value = $answer->getValue();
             if (is_string($value)) {
                 if (in_array($value, ['mutate-binding', 'remove-captcha-field', 'replace-form'], true)) {
@@ -33,7 +38,8 @@ final class NormalizeAnswersDataProcessor extends AbstractDataProcessor
         }
         if ($mutation === 'replace-form') {
             $replacement = new Form();
-            $replacement->setUid(300);
+            $replacement->_setProperty('uid', 300);
+            $replacement->setPages(new ObjectStorage());
             $this->mail->setForm($replacement);
             return;
         }

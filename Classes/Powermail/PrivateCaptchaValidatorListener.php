@@ -490,8 +490,9 @@ final class PrivateCaptchaValidatorListener
 
     private function businessDigest(Mail $mail): string
     {
+        /** @var list<array{fieldUid: int, marker: string, valueType: int, value: string}> $businessAnswers */
         $businessAnswers = [];
-        foreach ($mail->getAnswers() as $answer) {
+        foreach ($this->mailAnswers($mail) as $answer) {
             $field = $answer->getField();
             $fieldUid = $field?->getUid() ?? 0;
             if (!$field instanceof Field || $fieldUid < 1 || $field->getMarker() === '') {
@@ -522,10 +523,26 @@ final class PrivateCaptchaValidatorListener
     /**
      * @return list<Answer>
      */
-    private function answers(Mail $mail, Field $field): array
+    private function mailAnswers(Mail $mail): array
     {
         $answers = [];
         foreach ($mail->getAnswers() as $answer) {
+            if (!$answer instanceof Answer) {
+                throw new \RuntimeException('Powermail answer collection is invalid.');
+            }
+            $answers[] = $answer;
+        }
+
+        return $answers;
+    }
+
+    /**
+     * @return list<Answer>
+     */
+    private function answers(Mail $mail, Field $field): array
+    {
+        $answers = [];
+        foreach ($this->mailAnswers($mail) as $answer) {
             if ($answer->getField()?->getUid() === $field->getUid()) {
                 $answers[] = $answer;
             }
@@ -594,7 +611,7 @@ final class PrivateCaptchaValidatorListener
     }
 
     /**
-     * @param array<string, mixed> $settings
+     * @param array<array-key, mixed> $settings
      */
     private function formIsConfigured(Form $form, array $settings): bool
     {

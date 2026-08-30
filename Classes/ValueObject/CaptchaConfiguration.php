@@ -26,12 +26,17 @@ final readonly class CaptchaConfiguration
 
     public function apiKeyReplacement(): ?string
     {
-        $apiKeyReplacement = $this->apiKeyReplacement->getValue();
+        $apiKeyReplacement = self::sensitiveValue($this->apiKeyReplacement);
         if ($apiKeyReplacement !== null && !is_string($apiKeyReplacement)) {
             throw new \LogicException('API key replacement must be a string or null.');
         }
 
         return $apiKeyReplacement;
+    }
+
+    private static function sensitiveValue(\SensitiveParameterValue $value): mixed
+    {
+        return $value->getValue();
     }
 
     /**

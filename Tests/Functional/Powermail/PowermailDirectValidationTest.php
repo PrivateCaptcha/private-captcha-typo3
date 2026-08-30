@@ -819,6 +819,9 @@ final class PowermailDirectValidationTest extends FunctionalTestCase
     private function answer(Mail $mail, string $marker): ?Answer
     {
         foreach ($mail->getAnswers() as $answer) {
+            if (!$answer instanceof Answer) {
+                throw new \RuntimeException('Powermail answer collection is invalid.');
+            }
             if ($answer->getField()?->getMarker() === $marker) {
                 return $answer;
             }
@@ -834,6 +837,9 @@ final class PowermailDirectValidationTest extends FunctionalTestCase
     {
         $values = [];
         foreach ($mail->getAnswers() as $answer) {
+            if (!$answer instanceof Answer) {
+                throw new \RuntimeException('Powermail answer collection is invalid.');
+            }
             $marker = $answer->getField()?->getMarker();
             if (is_string($marker)) {
                 $values[$marker] = $answer->getValue();
